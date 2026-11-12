@@ -1,0 +1,7 @@
+{
+  "name": "punto-escolar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
