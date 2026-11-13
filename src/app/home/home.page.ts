@@ -45,4 +45,8 @@ export class HomePage {
       console.error('Error al cerrar sesión:', error);
     }
   }
+
+  abrirInventario() {
+    this.router.navigateByUrl('/productos');
+  }
 }

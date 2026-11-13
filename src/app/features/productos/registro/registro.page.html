@@ -1,0 +1,119 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/productos">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Nuevo producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form (ngSubmit)="guardarProducto()">
+
+    <ion-item>
+      <ion-input
+        label="Nombre *"
+        labelPlacement="stacked"
+        name="nombre"
+        [(ngModel)]="producto.nombre"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Precio de venta *"
+        labelPlacement="stacked"
+        type="number"
+        inputmode="decimal"
+        min="0"
+        name="precio"
+        [(ngModel)]="producto.precio_venta"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Cantidad inicial *"
+        labelPlacement="stacked"
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="1"
+        name="existencia"
+        [(ngModel)]="producto.existencia_inicial"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Cantidad mínima *"
+        labelPlacement="stacked"
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="1"
+        name="minimo"
+        [(ngModel)]="producto.stock_minimo"
+        required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Marca"
+        labelPlacement="stacked"
+        name="marca"
+        [(ngModel)]="producto.marca">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Categoría"
+        labelPlacement="stacked"
+        name="categoria"
+        [(ngModel)]="producto.categoria">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Descripción"
+        labelPlacement="stacked"
+        name="descripcion"
+        [autoGrow]="true"
+        [(ngModel)]="producto.descripcion">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-text color="danger" *ngIf="error">
+      <p>{{ error }}</p>
+    </ion-text>
+
+    <ion-button
+      expand="block"
+      type="submit"
+      class="ion-margin-top"
+      [disabled]="guardando">
+
+      <ion-spinner
+        *ngIf="guardando"
+        name="crescent">
+      </ion-spinner>
+
+      <span *ngIf="!guardando">
+        Guardar producto
+      </span>
+    </ion-button>
+
+  </form>
+
+</ion-content>

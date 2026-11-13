@@ -1,0 +1,47 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/productos">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Detalle del producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center" *ngIf="cargando()">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-text color="danger" *ngIf="error()">
+    <p>{{ error() }}</p>
+  </ion-text>
+
+  <ion-card *ngIf="producto() as p">
+
+    <ion-card-header>
+      <ion-card-title>
+        {{ p.nombre }}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Marca:</strong> {{ p.marca || 'Sin marca' }}</p>
+
+      <p><strong>Categoría:</strong> {{ p.categoria || 'Sin categoría' }}</p>
+
+      <p><strong>Descripción:</strong> {{ p.descripcion || 'Sin descripción' }}</p>
+
+      <p><strong>Precio:</strong> {{ p.precio_venta | currency:'MXN' }}</p>
+
+      <p><strong>Existencias:</strong> {{ p.existencia }}</p>
+
+      <p><strong>Cantidad mínima:</strong> {{ p.stock_minimo }}</p>
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
