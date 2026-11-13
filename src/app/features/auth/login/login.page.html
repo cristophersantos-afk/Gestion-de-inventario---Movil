@@ -1,0 +1,70 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Punto Escolar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="login-container">
+
+    <h1>Bienvenido</h1>
+
+    <p>
+      Inicia sesión para administrar
+      el inventario de Punto Escolar.
+    </p>
+
+    <form (ngSubmit)="iniciarSesion()">
+
+      <ion-item>
+        <ion-input
+          label="Correo electrónico"
+          labelPlacement="stacked"
+          type="email"
+          name="email"
+          autocomplete="email"
+          [(ngModel)]="email"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Contraseña"
+          labelPlacement="stacked"
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          [(ngModel)]="password"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        type="submit"
+        expand="block"
+        class="ion-margin-top"
+        [disabled]="cargando || !email || !password">
+
+        <ion-spinner
+          *ngIf="cargando"
+          name="crescent">
+        </ion-spinner>
+
+        <span *ngIf="!cargando">
+          Iniciar sesión
+        </span>
+
+      </ion-button>
+
+    </form>
+
+    <ion-text color="danger" *ngIf="mensajeError">
+      <p>{{ mensajeError }}</p>
+    </ion-text>
+
+  </div>
+
+</ion-content>
