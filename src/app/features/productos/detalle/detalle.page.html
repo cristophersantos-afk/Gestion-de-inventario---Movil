@@ -40,6 +40,17 @@
       <p><strong>Existencias:</strong> {{ p.existencia }}</p>
 
       <p><strong>Cantidad mínima:</strong> {{ p.stock_minimo }}</p>
+
+
+    <ion-button
+      expand="block"
+      class="ion-margin-top"
+      (click)="editarProducto()">
+
+      Editar producto
+
+    </ion-button>
+
     </ion-card-content>
 
   </ion-card>

@@ -1,11 +1,12 @@
 
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import {
   IonHeader, IonToolbar, IonTitle,
-  IonContent, IonButtons, IonBackButton,
+  IonContent, IonButton, IonButtons, IonBackButton,
   IonCard, IonCardHeader, IonCardTitle,
   IonCardContent, IonSpinner, IonText
 } from '@ionic/angular';
@@ -21,21 +22,22 @@ import { Producto } from '../models/producto';
   imports: [
     CommonModule,
     IonHeader, IonToolbar, IonTitle,
-    IonContent, IonButtons, IonBackButton,
+    IonContent, IonButton, IonButtons, IonBackButton,
     IonCard, IonCardHeader, IonCardTitle,
     IonCardContent, IonSpinner, IonText
   ]
 })
-export class DetallePage implements OnInit {
+export class DetallePage {
 
   private route = inject(ActivatedRoute);
   private productosService = inject(ProductosService);
+  private router = inject(Router);
 
   producto = signal<Producto | null>(null);
   cargando = signal(true);
   error = signal('');
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     await this.cargarProducto();
   }
 
@@ -70,4 +72,14 @@ export class DetallePage implements OnInit {
       this.cargando.set(false);
     }
   }
+
+  editarProducto() {
+  const p = this.producto();
+
+  if (!p) return;
+
+  this.router.navigateByUrl(
+    `/productos/${p.id}/editar`
+  );
+}
 }

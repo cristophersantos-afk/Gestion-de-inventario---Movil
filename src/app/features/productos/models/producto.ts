@@ -22,3 +22,14 @@ export interface NuevoProducto {
   descripcion?: string;
   categoria?: string;
 }
+
+
+export interface EdicionProducto {
+  nombre: string;
+  marca: string | null;
+  descripcion: string | null;
+  categoria: string | null;
+  precio_venta: number;
+  stock_minimo: number;
+}
+

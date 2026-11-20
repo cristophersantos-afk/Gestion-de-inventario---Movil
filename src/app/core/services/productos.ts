@@ -4,7 +4,8 @@ import { SupabaseService } from './supabase';
 
 import {
   Producto,
-  NuevoProducto
+  NuevoProducto,
+  EdicionProducto
 } from '../../features/productos/models/producto';
 
 @Injectable({
@@ -95,4 +96,36 @@ export class ProductosService {
 
     return data;
   }
+
+
+
+    async actualizarProducto(
+        id: string,
+        cambios: EdicionProducto
+    ): Promise<Producto> {
+
+        // Lista explícita de campos permitidos.
+        const datos = {
+            nombre: cambios.nombre.trim(),
+            marca: cambios.marca?.trim() || null,
+            descripcion: cambios.descripcion?.trim() || null,
+            categoria: cambios.categoria?.trim() || null,
+            precio_venta: cambios.precio_venta,
+            stock_minimo: cambios.stock_minimo
+        };
+
+        const { data, error } = await this.supabase.client
+            .from('productos')
+            .update(datos)
+            .eq('id', id)
+            .select('*')
+            .single();
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return data as Producto;
+    }
+
 }
