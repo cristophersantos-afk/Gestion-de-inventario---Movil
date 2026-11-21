@@ -29,9 +29,7 @@ export const routes: Routes = [
   {
     path: 'productos/:id/editar',
     canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/productos/editar/editar.page')
-        .then(m => m.EditarPage)
+    loadComponent: () => import('./features/productos/editar/editar.page').then((m) => m.EditarPage),
   },
   {
     path: 'productos/:id',
@@ -39,7 +37,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/productos/detalle/detalle.page').then((m) => m.DetallePage),
   },
   {
+    path: 'productos/:id/movimiento',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/inventario/movimiento/movimiento.page')
+        .then(m => m.MovimientoPage)
+  },
+  {
     path: '**',
     redirectTo: 'home',
-  }
+  },
 ];
