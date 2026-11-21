@@ -1,0 +1,118 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/productos">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Movimiento de inventario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center" *ngIf="cargando()">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando producto...</p>
+  </div>
+
+  <ng-container *ngIf="!cargando() && producto() as p">
+
+    <h2>{{ p.nombre }}</h2>
+
+    <p>
+      Existencias actuales:
+      <strong>{{ p.existencia }}</strong>
+    </p>
+
+    <form (ngSubmit)="registrar()">
+
+      <ion-item>
+        <ion-select
+          label="Tipo de movimiento"
+          labelPlacement="stacked"
+          name="tipo"
+          interface="alert"
+          [(ngModel)]="tipo"
+          [disabled]="procesando() || !!pendiente()">
+
+          <ion-select-option value="ENTRADA">
+            Entrada de mercancía
+          </ion-select-option>
+
+          <ion-select-option value="SALIDA">
+            Salida de mercancía
+          </ion-select-option>
+
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Cantidad de unidades"
+          labelPlacement="stacked"
+          type="number"
+          inputmode="numeric"
+          min="1"
+          step="1"
+          name="cantidad"
+          [(ngModel)]="cantidad"
+          [readonly]="procesando() || !!pendiente()"
+          required>
+        </ion-input>
+      </ion-item>
+
+      <ion-text color="danger" *ngIf="error()">
+        <p class="ion-padding-horizontal">
+          {{ error() }}
+        </p>
+      </ion-text>
+
+      <ion-text color="success" *ngIf="mensaje()">
+        <p class="ion-padding-horizontal">
+          {{ mensaje() }}
+        </p>
+      </ion-text>
+
+      <ion-button
+        expand="block"
+        type="submit"
+        class="ion-margin-top"
+        [disabled]="procesando()">
+
+        <ion-spinner
+          *ngIf="procesando()"
+          name="crescent">
+        </ion-spinner>
+
+        <span *ngIf="!procesando()">
+          {{ pendiente()
+            ? 'Verificar / reintentar'
+            : 'Confirmar movimiento' }}
+        </span>
+
+      </ion-button>
+
+    </form>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="ion-margin-top"
+      [disabled]="procesando()"
+      (click)="volverDetalle()">
+
+      Volver al producto
+
+    </ion-button>
+
+  </ng-container>
+
+  <ion-text
+    color="danger"
+    *ngIf="!cargando() && !producto() && error()">
+    <p>{{ error() }}</p>
+  </ion-text>
+
+</ion-content>

@@ -74,12 +74,24 @@ export class DetallePage {
   }
 
   editarProducto() {
-  const p = this.producto();
+    const p = this.producto();
 
-  if (!p) return;
+    if (!p) return;
 
-  this.router.navigateByUrl(
-    `/productos/${p.id}/editar`
-  );
-}
+    this.router.navigateByUrl(
+      `/productos/${p.id}/editar`
+    );
+  }
+
+
+  registrarMovimiento() {
+    const p = this.producto();
+
+    if (!p) return;
+
+    this.router.navigateByUrl(
+      `/productos/${p.id}/movimiento`
+    );
+  }
+
 }
