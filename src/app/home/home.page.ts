@@ -49,4 +49,7 @@ export class HomePage {
   abrirInventario() {
     this.router.navigateByUrl('/productos');
   }
+  abrirTablero() {
+    this.router.navigateByUrl('/tablero');
+  }
 }

@@ -183,7 +183,7 @@ export class MovimientoPage {
     }
 
     const solicitud: SolicitudMovimiento = {
-      operacionId: crypto.randomUUID(),
+      operacionId: this.generarOperacionId(),
       productoId: producto.id,
       tipo: this.tipo,
       cantidad
@@ -234,7 +234,7 @@ export class MovimientoPage {
           : 'El movimiento ya estaba registrado. No se duplicó.'
       );
 
-      this.cantidad = 1;
+      this.cantidad = 0;
 
       // Refrescar las existencias, sin alterar
       // el resultado ya confirmado.
@@ -299,5 +299,19 @@ export class MovimientoPage {
     this.router.navigateByUrl(
       `/productos/${producto.id}`
     );
+  }
+
+  // Funcion auxiliar para generar el id aleatorio para supabase desde
+  // el navegador de un dispositivo en la red local
+  private generarOperacionId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (caracter) => {
+      const aleatorio = (Math.random() * 16) | 0;
+      const valor = caracter === 'x' ? aleatorio : (aleatorio & 0x3) | 0x8;
+      return valor.toString(16);
+    });
   }
 }

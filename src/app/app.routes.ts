@@ -39,9 +39,14 @@ export const routes: Routes = [
   {
     path: 'productos/:id/movimiento',
     canActivate: [authGuard],
+    loadComponent: () => import('./features/inventario/movimiento/movimiento.page').then((m) => m.MovimientoPage),
+  },
+  {
+    path: 'tablero',
+    //canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/inventario/movimiento/movimiento.page')
-        .then(m => m.MovimientoPage)
+      import('./features/tablero/tablero.page')
+        .then(m => m.TableroPage)
   },
   {
     path: '**',
