@@ -1,0 +1,147 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="irInicio()">
+        Inicio
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Tablero de inventario</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cargarTablero()">
+        Actualizar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center" *ngIf="cargando()">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando inventario...</p>
+  </div>
+
+  <ion-text color="danger" *ngIf="error()">
+    <p>{{ error() }}</p>
+  </ion-text>
+
+  <div *ngIf="!cargando() && !error()">
+
+    <p>
+      Consulta las existencias de los productos
+      agrupados por su nivel de stock.
+    </p>
+
+    <div class="tablero">
+
+      <!-- STOCK SUFICIENTE -->
+      <section class="columna suficiente">
+        <h2>
+          Stock suficiente
+          <ion-badge color="success">
+            {{ stockSuficiente().length }}
+          </ion-badge>
+        </h2>
+
+        <ion-card
+          *ngFor="let p of stockSuficiente()"
+          [button]="true"
+          (click)="abrirProducto(p.id)">
+
+          <ion-card-header>
+            <ion-card-title>
+              {{ p.nombre }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>Existencias: {{ p.existencia }}</p>
+            <p>Mínimo: {{ p.stock_minimo }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <p *ngIf="stockSuficiente().length === 0"
+           class="vacio">
+          No hay productos.
+        </p>
+      </section>
+
+      <!-- STOCK BAJO -->
+      <section class="columna bajo">
+        <h2>
+          Stock bajo
+          <ion-badge color="warning">
+            {{ stockBajo().length }}
+          </ion-badge>
+        </h2>
+
+        <ion-card
+          *ngFor="let p of stockBajo()"
+          [button]="true"
+          (click)="abrirProducto(p.id)">
+
+          <ion-card-header>
+            <ion-card-title>
+              {{ p.nombre }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>Existencias: {{ p.existencia }}</p>
+            <p>Mínimo: {{ p.stock_minimo }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <p *ngIf="stockBajo().length === 0"
+           class="vacio">
+          No hay productos.
+        </p>
+      </section>
+
+      <!-- AGOTADOS -->
+      <section class="columna agotado">
+        <h2>
+          Agotados
+          <ion-badge color="danger">
+            {{ agotados().length }}
+          </ion-badge>
+        </h2>
+
+        <ion-card
+          *ngFor="let p of agotados()"
+          [button]="true"
+          (click)="abrirProducto(p.id)">
+
+          <ion-card-header>
+            <ion-card-title>
+              {{ p.nombre }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>Existencias: {{ p.existencia }}</p>
+            <p>Mínimo: {{ p.stock_minimo }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <p *ngIf="agotados().length === 0"
+           class="vacio">
+          No hay productos.
+        </p>
+      </section>
+
+    </div>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      (click)="abrirInventario()">
+      Ver inventario completo
+    </ion-button>
+
+  </div>
+
+</ion-content>
