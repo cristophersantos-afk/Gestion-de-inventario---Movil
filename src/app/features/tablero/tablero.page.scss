@@ -61,3 +61,17 @@ ion-card-content {
     grid-template-columns: 1fr;
   }
 }
+
+
+.indicador-reposicion {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  min-width: 10px;
+
+  border-radius: 50%;
+  background-color: #eab308;
+
+  margin-right: 6px;
+  vertical-align: middle;
+}

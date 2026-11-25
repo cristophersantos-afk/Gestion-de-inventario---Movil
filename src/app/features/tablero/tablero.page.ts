@@ -2,6 +2,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ReposicionesService } from '../../core/services/reposiciones';
 
 import {
   IonHeader,
@@ -70,22 +71,43 @@ export class TableroPage {
     )
   );
 
+
+  // Variables para reposicion
+  private reposicionesService = inject(ReposicionesService);
+  productosEnReposicion = signal<Set<string>>(new Set());
+
+  // Funcion para ver si esta en reposicion
+
+  estaEnReposicion(productoId: string): boolean {
+    return this.productosEnReposicion().has(productoId);
+  }
+
   async ionViewWillEnter() {
     await this.cargarTablero();
   }
 
+  
   async cargarTablero() {
     this.cargando.set(true);
     this.error.set('');
 
     try {
-      const resultado =
-        await this.productosService.obtenerProductos();
+      const [productos, reposiciones] = await Promise.all([
+        this.productosService.obtenerProductos(),
+        this.reposicionesService.obtenerPendientes()
+      ]);
 
-      this.productos.set(resultado);
+      this.productos.set(productos);
+
+      const ids = new Set(
+        reposiciones.map(r => r.producto_id)
+      );
+
+      this.productosEnReposicion.set(ids);
 
     } catch (error) {
       this.productos.set([]);
+      this.productosEnReposicion.set(new Set());
 
       this.error.set(
         error instanceof Error
@@ -96,6 +118,7 @@ export class TableroPage {
       this.cargando.set(false);
     }
   }
+
 
   abrirProducto(id: string) {
     this.router.navigate(['/productos', id]);

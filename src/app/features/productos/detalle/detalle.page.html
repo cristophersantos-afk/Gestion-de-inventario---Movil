@@ -41,6 +41,10 @@
 
       <p><strong>Cantidad mínima:</strong> {{ p.stock_minimo }}</p>
 
+      <ion-text color="warning" *ngIf="reposicionPendiente()">
+        <p><strong>Reposición: Solicitado</strong></p>
+      </ion-text>
+
 
     <ion-button
       expand="block"
@@ -58,6 +62,43 @@
       (click)="registrarMovimiento()">
 
       Registrar entrada / salida
+
+    </ion-button>
+
+
+    <ion-text color="danger" *ngIf="errorReposicion()">
+      <p>{{ errorReposicion() }}</p>
+    </ion-text>
+
+    <ion-text color="success" *ngIf="mensajeReposicion()">
+      <p>{{ mensajeReposicion() }}</p>
+    </ion-text>
+
+    <ion-button
+      expand="block"
+      color="warning"
+      [disabled]="solicitando() || reposicionPendiente()"
+      (click)="solicitarReposicion()">
+
+      <ion-spinner
+        *ngIf="solicitando()"
+        name="crescent">
+      </ion-spinner>
+
+      <span *ngIf="!solicitando()">
+        {{ reposicionPendiente()
+          ? 'Reposición solicitada'
+          : 'Marcar como solicitado' }}
+      </span>
+
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      (click)="abrirReposiciones()">
+
+      Ver reposiciones pendientes
 
     </ion-button>
 

@@ -1,0 +1,118 @@
+
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="irInicio()">
+        Inicio
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Reposiciones pendientes</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button
+        [disabled]="cargando() || !!procesandoId()"
+        (click)="cargarReposiciones()">
+        Actualizar
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center" *ngIf="cargando()">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando reposiciones...</p>
+  </div>
+
+  <ion-text color="danger" *ngIf="error()">
+    <p>{{ error() }}</p>
+  </ion-text>
+
+  <ion-text color="success" *ngIf="mensaje()">
+    <p>{{ mensaje() }}</p>
+  </ion-text>
+
+  <ng-container *ngIf="!cargando()">
+
+    <p>
+      Productos solicitados que todavía
+      tienen una reposición pendiente.
+    </p>
+
+    <p
+      class="ion-text-center"
+      *ngIf="reposiciones().length === 0">
+
+      No hay reposiciones pendientes.
+
+    </p>
+
+    <ion-card
+      *ngFor="let r of reposiciones()">
+
+      <ion-card-header>
+
+        <ion-card-title>
+          {{ r.producto.nombre }}
+        </ion-card-title>
+
+        <ion-badge color="warning">
+          Solicitado
+        </ion-badge>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p>
+          <strong>Existencias:</strong>
+          {{ r.producto.existencia }}
+        </p>
+
+        <p>
+          <strong>Cantidad mínima:</strong>
+          {{ r.producto.stock_minimo }}
+        </p>
+
+        <p>
+          <strong>Fecha de solicitud:</strong>
+          {{ r.solicitado_en | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="abrirProducto(r.producto_id)">
+
+          Ver producto
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          color="success"
+          [disabled]="!!procesandoId()"
+          (click)="confirmarFinalizacion(r)">
+
+          <ion-spinner
+            *ngIf="procesandoId() === r.id"
+            name="crescent">
+          </ion-spinner>
+
+          <span *ngIf="procesandoId() !== r.id">
+            Finalizar reposición
+          </span>
+
+        </ion-button>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </ng-container>
+
+</ion-content>

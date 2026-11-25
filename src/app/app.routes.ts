@@ -43,10 +43,15 @@ export const routes: Routes = [
   },
   {
     path: 'tablero',
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/tablero/tablero.page').then((m) => m.TableroPage),
+  },
+  {
+    path: 'reposiciones',
+    canActivate: [authGuard],
     loadComponent: () =>
-      import('./features/tablero/tablero.page')
-        .then(m => m.TableroPage)
+      import('./features/reposiciones/listado/listado.page')
+        .then(m => m.ListadoPage)
   },
   {
     path: '**',

@@ -52,4 +52,7 @@ export class HomePage {
   abrirTablero() {
     this.router.navigateByUrl('/tablero');
   }
+  abrirReposiciones() {
+    this.router.navigateByUrl('/reposiciones');
+  }
 }
